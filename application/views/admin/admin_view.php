@@ -1,12 +1,12 @@
 <div class="container">
     <div class="row card mt-3">
-        <div class="col">
+        <div class="col-lg-12">
             <h1 class="text-center mb-3 mt-3">CRUD AJAX</h1>
-            <a href="<?= base_url('admin/insert') ?>" class="btn btn-primary mb-2" data-toggle="modal" data-target="#modal_insert" id="tambah">Tambah Customer</a>
+            <a href="<?= base_url('admin/insert') ?>" class="btn btn-primary mb-2" data-toggle="modal" data-target="#modal_insert" onclick="submit('tambah')">Tambah Customer</a>
             <?php if ($this->session->flashdata()) : ?>
                 <?= $this->session->flashdata('flash') ?>
             <?php endif ?>
-            <table class="table text-center table-bordered">
+            <table class="table text-center table-bordered table-responsive-sm">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">No.</th>
@@ -17,26 +17,6 @@
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <!-- <tbody>
-                    <?php $no = 1;
-                    foreach ($result as $hasil) : ?>
-                        <tr>
-                            <th scope="row"><?= $no++ ?></th>
-                            <td><?= $hasil['kode_kustomer'] ?></td>
-                            <td><?= $hasil['nama_customer'] ?></td>
-                            <td><?= $hasil['kota'] ?></td>
-                            <td><?= $hasil['alamat'] ?></td>
-                            <td>
-                                <div class="row justify-content-center">
-                                    <div class="col">
-                                        <a href="<?= base_url('admin/edit/') . $hasil['id']; ?>" class="btn btn-warning mr-3">Edit</a>
-                                        <a href="<?= base_url('admin/delete/') . $hasil['id']; ?>?>" class="btn btn-danger hapus">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach ?>
-                </tbody> -->
                 <tbody id="table_body">
                     <!-- looping menggunakan ajax -->
                 </tbody>
@@ -56,10 +36,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div id="err_mssg" class="alert alert-success" role="alert"></div>
+            <div id="err_mssg" class="alert alert-danger" role="alert"></div>
             <div class="modal-body">
-                <form action="<?= base_url('admin/ajax'); ?>" method="post">
+                <form>
                     <?= $this->session->flashdata('validasi'); ?>
+                    <input type="hidden" class="form-control font-weight-bold" name="id" id="id">
                     <div class="form-group row">
                         <label for="kode_customer" class="col-sm-3 col-form-label font-weight-bold">Kode Customer</label>
                         <div class="col-sm-9">
@@ -91,8 +72,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="insert">Tambah Data</button>
+                <button type="submit" class="btn btn-primary" id="edit">Edit Data</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

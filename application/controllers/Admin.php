@@ -110,23 +110,21 @@ class Admin extends CI_Controller
         echo json_encode($data);
     }
 
-    public function ajax()
+    public function insert_ajax()
     {
         $kode       = $this->input->post('kode');
         $nama       = $this->input->post('nama');
         $kota       = $this->input->post('kota');
         $alamat     = $this->input->post('alamat');
 
-        // var_dump($kode);
         $this->form_validation->set_rules('kode', 'Kode Customer', 'required|trim|is_unique[customer.kode_kustomer]');
         $this->form_validation->set_rules('nama', 'Nama Customer', 'required|trim');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
         $this->form_validation->set_rules('kota', 'Kota', 'required|trim');
 
-        $data['judul']      = 'Tambah Promo';
+        $data['judul']      = 'Tambah Data';
         if ($this->form_validation->run() == false) {
             $data = array('error_message' => validation_errors());
-            // echo json_encode($data);
         } else {
             $data                 =   [
                 'kode_kustomer'   => $kode,
@@ -135,10 +133,51 @@ class Admin extends CI_Controller
                 'alamat'          => $alamat
             ];
             $data = $this->Admin_model->insert($data);
-            // echo json_decode($data);
+        }
+        echo json_encode($data);
+    }
 
-            // $this->session->set_flashdata('flash', '<div class="alert alert-success" role="alert">Data berhasil ditambahkan</div>');
-            // redirect('admin/index');
+    public function get_id()
+    {
+        $id = $this->input->post('id');
+
+        $query = $this->Admin_model->getRow($id);
+
+        echo json_encode($query);
+    }
+
+    public function edit_ajax()
+    {
+        $id = $this->input->post('id');
+        $kode = $this->input->post('kode');
+        $nama = $this->input->post('nama');
+        $kota = $this->input->post('kota');
+        $alamat = $this->input->post('alamat');
+
+        $row = $this->Admin_model->getRow($id);
+        $kode_kustomer = $row['kode_kustomer'];
+
+        if ($kode == $kode_kustomer) {
+            $this->form_validation->set_rules('kode', 'Kode Customer', 'required|trim');
+        } else {
+            $this->form_validation->set_rules('kode', 'Kode Customer', 'required|trim|is_unique[customer.kode_kustomer]');
+        }
+
+        $this->form_validation->set_rules('nama', 'Nama Customer', 'required|trim');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
+        $this->form_validation->set_rules('kota', 'Kota', 'required|trim');
+
+        $data['judul']      = 'Edit Data';
+        if ($this->form_validation->run() == false) {
+            $data = array('error_message' => validation_errors());
+        } else {
+            $data                 =   [
+                'kode_kustomer'   => $kode,
+                'nama_customer'   => $nama,
+                'kota'            => $kota,
+                'alamat'          => $alamat
+            ];
+            $data = $this->Admin_model->update($data);
         }
         echo json_encode($data);
     }
