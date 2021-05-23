@@ -11,24 +11,24 @@
 
     <script>
         // alert untuk hapus
-        $('.hapus').click(function(e) {
-            e.preventDefault()
-            var link = $(this).attr('href')
-            Swal.fire({
-                title: 'Apa Anda Yakin?',
-                text: "Data yang sudah dihapus tidak bisa dikembalikan. Setuju?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: 'silver',
-                confirmButtonText: 'Ya, Hapus',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = link
-                }
-            })
-        })
+        // $('.hapus').click(function(e) {
+        //     e.preventDefault()
+        //     var link = $(this).attr('href')
+        //     Swal.fire({
+        //         title: 'Apa Anda Yakin?',
+        //         text: "Data yang sudah dihapus tidak bisa dikembalikan. Setuju?",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#d33',
+        //         cancelButtonColor: 'silver',
+        //         confirmButtonText: 'Ya, Hapus',
+        //         cancelButtonText: 'Batal'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             window.location = link
+        //         }
+        //     })
+        // })
 
         // berfungsi untuk mengambil data dari db
         getData();
@@ -55,7 +55,7 @@
                             `<div class="row justify-content-center">
                                     <div class="col">
                                         <button class="btn btn-warning mr-3" data-toggle="modal" data-target="#modal_insert" id="btn-edit" onclick="submit(` + data[index].id + `)">Edit</button>
-                                        <button class="btn btn-danger hapus" onclick ="hapus(` + data[index].id + `)">Delete</button>
+                                        <button onclick="hapus(` + data[index].id + `)" type="button" class="btn btn-danger">Hapus</button>
                                     </div>
                             </div>` +
                             '</td>' +
@@ -65,6 +65,7 @@
                 }
             })
         }
+
 
         // fungsi tambah data
         $('#insert').click(function(e) {
@@ -163,7 +164,40 @@
             })
         })
 
-        function hapus() {
+        function hapus(x) {
+            // event.preventDefault();
+            // var form = event.target.form;
 
+            Swal.fire({
+                title: 'Apa Anda Yakin?',
+                text: "Data yang sudah dihapus tidak bisa dikembalikan. Setuju?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: 'silver',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var id = x;
+                    $.ajax({
+                        url: '<?= base_url('admin/delete_ajax'); ?>',
+                        type: 'post',
+                        data: {
+                            id: id
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Customer berhasil dihapus',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            getData();
+                        }
+                    })
+                }
+            })
         }
     </script>

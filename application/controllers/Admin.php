@@ -10,6 +10,7 @@ class Admin extends CI_Controller
         $this->load->model('Admin_model');
     }
 
+    // crud manual
     public function index()
     {
         $data['judul']      = 'Administrator';
@@ -104,6 +105,7 @@ class Admin extends CI_Controller
         redirect('admin/index');
     }
 
+    // crud menggunakan ajax
     public function get_ajax()
     {
         $data =  $this->Admin_model->getAll();
@@ -180,5 +182,14 @@ class Admin extends CI_Controller
             $data = $this->Admin_model->update($data);
         }
         echo json_encode($data);
+    }
+
+    public function delete_ajax()
+    {
+        $id = $this->input->post('id');
+
+        $query = $this->Admin_model->delete($id);
+
+        echo json_encode($query);
     }
 }
