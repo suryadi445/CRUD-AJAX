@@ -3,6 +3,7 @@
         <div class="col-lg-12">
             <h1 class="text-center mb-3 mt-3">CRUD AJAX</h1>
             <a href="<?= base_url('admin/insert') ?>" class="btn btn-primary mb-2" data-toggle="modal" data-target="#modal_insert" onclick="submit('tambah')">Tambah Customer</a>
+            <!-- alert untuk crud manual -->
             <?php if ($this->session->flashdata()) : ?>
                 <?= $this->session->flashdata('flash') ?>
             <?php endif ?>
@@ -36,10 +37,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <!-- alert untuk error ajax -->
             <div id="err_mssg" class="alert alert-danger" role="alert"></div>
             <div class="modal-body">
                 <form>
-                    <?= $this->session->flashdata('validasi'); ?>
+                    <!-- alert unutk crud manual -->
                     <input type="hidden" class="form-control font-weight-bold" name="id" id="id">
                     <div class="form-group row">
                         <label for="kode_customer" class="col-sm-3 col-form-label font-weight-bold">Kode Customer</label>
